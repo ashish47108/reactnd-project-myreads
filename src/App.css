@@ -65,7 +65,7 @@ body, .app {
   background-size: 28px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   font-size: 0;
-  outline: 0;
+  
 }
 
 .open-search button:hover {
@@ -189,6 +189,9 @@ button:active {
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
+	width: 128px;
+  height: 165px;
+  background-size: cover;
 }
 
 .book-cover-title {
