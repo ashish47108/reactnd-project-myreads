@@ -19,6 +19,11 @@ class BooksApp extends React.Component {
   updateQuery = (query) => {
     if(query){
         BooksAPI.search(query).then((books) => {            
+          console.log(books);          
+          books.forEach(function(element) {
+            console.log(element.shelf);
+            console.log(element.id);
+          }, this);
             if(books.length){
                 this.setState({
                     searchBooks: books
@@ -26,11 +31,22 @@ class BooksApp extends React.Component {
             }
 
         });
+        
+        
         } else {
         this.setState({
             searchBooks: []
         });
     }
+  };
+
+changeShelf = (book, newShelf) => {
+  
+  BooksAPI.update(book, newShelf).then(() => {
+      // Update the local copy of the book
+      console.log('new shelf is ' +newShelf );
+      book.shelf = newShelf;
+  });
 };
 
   render() {
@@ -222,7 +238,8 @@ class BooksApp extends React.Component {
         <Route path="/search" render={({ history }) => (
                     <Search
                         books={this.state.searchBooks}
-                        updateQuery={this.updateQuery}                        
+                        updateQuery={this.updateQuery} 
+                        changeShelf={this.changeShelf}                       
                     />
                 )}/>
       </div>

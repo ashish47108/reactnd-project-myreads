@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import BookShelfChanger from "./BookShelfChanger";
+
 
 class Book extends Component{
     static propTypes = {
-        book: PropTypes.object.isRequired        
+        book: PropTypes.object.isRequired,
+        changeShelf: PropTypes.func.isRequired        
     };
 
     render(){
@@ -12,6 +15,10 @@ class Book extends Component{
             <div className="book" id={book.id}>
                 <div className="book-top">
                     <div className="book-cover" style={{backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>                    
+                    <BookShelfChanger 
+                        book={book}
+                        changeShelf={this.props.changeShelf}
+                    />
                 </div>
                 <div className="book-title">{book.name}</div>
                 <div className="book-authors">{book.authors}</div>
