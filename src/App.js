@@ -17,8 +17,6 @@ class BooksApp extends React.Component {
 
   fetchBooks() {
     BooksAPI.getAll().then((books) => {
-      console.log("Initial fetch");
-      console.log(books);
         this.setState({books});
     });
   }
@@ -26,11 +24,6 @@ class BooksApp extends React.Component {
   updateQuery = (query) => {
     if(query){
         BooksAPI.search(query).then((books) => {            
-          console.log(books);          
-          books.forEach(function(element) {
-            console.log(element.shelf);
-            console.log(element.id);
-          }, this);
             if(books.length){
 
                 books.forEach((book, index) => {
@@ -58,11 +51,8 @@ class BooksApp extends React.Component {
 changeShelf = (book, newShelf) => {
   
   BooksAPI.update(book, newShelf).then(() => {
-      // Update the local copy of the book
-      console.log('new shelf is ' +newShelf );
-      book.shelf = newShelf;
-
-      this.setState(state => ({
+    book.shelf = newShelf;
+    this.setState(state => ({
         books: state.books.filter(b => b.id !== book.id).concat([ book ])
       }));
 
