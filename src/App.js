@@ -5,11 +5,18 @@ import Search from "./Search";
 import "./App.css";
 import Shelf from "./Shelf";
 
-class BooksApp extends React.Component {
+class BooksApp extends React.Component {    
+
   state = {
     searchBooks: [],
     books: []    
   };
+
+  shelfs = [
+    { key: 'currentlyReading', name: 'Currently Reading' },
+    { key: 'wantToRead', name: 'Want to Read' },
+    { key: 'read', name: 'Read' }
+  ];
 
   componentDidMount() {
     this.fetchBooks();
@@ -24,8 +31,7 @@ class BooksApp extends React.Component {
   searchForBooks = (query) => {
     if(query){
         BooksAPI.search(query).then((books) => {            
-            if(books.length){
-                console.log(books);
+            if(books.length){                
                 books=books.map(book =>{
                     let myBook= this.state.books.find((b) => b.id === book.id);
                     book.shelf = myBook ? myBook.shelf : 'none'; 
@@ -44,8 +50,7 @@ class BooksApp extends React.Component {
     }
   };
 
-changeShelf = (book, newShelf) => {
-  
+changeShelf = (book, newShelf) => {  
   BooksAPI.update(book, newShelf).then(() => {
     book.shelf = newShelf;
     this.setState(state => ({
@@ -68,22 +73,15 @@ getShelfBooks(shelfName){
                             <h1>MyReads</h1>
                         </div>
                         <div className="list-books-content">
-                            <div>
-                                <Shelf
-                                    title="Currently Reading"
-                                    books={this.getShelfBooks("currentlyReading")}
-                                    changeShelf={this.changeShelf}
-                                />
-                                <Shelf
-                                    title="Want to Read"
-                                    books={this.getShelfBooks("wantToRead")}
-                                    changeShelf={this.changeShelf}
-                                />
-                                <Shelf
-                                    title="Read"
-                                    books={this.getShelfBooks("read")}
-                                    changeShelf={this.changeShelf}
-                                />
+                            <div>                                
+                            {this.shelfs.map(shelf => (
+                            <Shelf
+                                key={shelf.key}
+                                title={shelf.name}
+                                books={this.getShelfBooks(shelf.key)}
+                                changeShelf={this.changeShelf}                                
+                            />
+                            ))}
                             </div>
                         </div>
                         <div className="open-search">
@@ -92,7 +90,7 @@ getShelfBooks(shelfName){
                     </div>
                 )}/>
 
-                <Route path="/search" render={({ history }) => (
+                <Route path="/search" render={() => (
                             <Search
                                 books={this.state.searchBooks}
                                 searchForBooks={this.searchForBooks} 
