@@ -20,7 +20,7 @@ class Book extends Component{
                         changeShelf={this.props.changeShelf}
                     />
                 </div>
-                <div className="book-title">{book.name}</div>
+                <div className="book-title">{book.title}</div>
                 <div className="book-authors">{book.authors}</div>
             </div>
         )
