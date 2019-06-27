@@ -21,30 +21,26 @@ class BooksApp extends React.Component {
     });
   }
 
-  updateQuery = (query) => {
+  searchForBooks = (query) => {
     if(query){
         BooksAPI.search(query).then((books) => {            
             if(books.length){
-
-                books.forEach((book, index) => {
-                  let myBook = this.state.books.find((b) => b.id === book.id);
-                  book.shelf = myBook ? myBook.shelf : 'none';                  
-                  books[index] = book;
-                  
-                });
-
+                console.log(books);
+                books=books.map(book =>{
+                    let myBook= this.state.books.find((b) => b.id === book.id);
+                    book.shelf = myBook ? myBook.shelf : 'none'; 
+                    return book;                   
+                } )
                 this.setState({
                     searchBooks: books
                 });
             }
 
-        });
-        
-        
-        } else {
-        this.setState({
-            searchBooks: []
-        });
+        });     
+    } else {
+    this.setState({
+        searchBooks: []
+    });
     }
   };
 
@@ -91,7 +87,7 @@ getShelfBooks(shelfName){
                             </div>
                         </div>
                         <div className="open-search">
-                            <Link to="/search">Add a book</Link>
+                            <Link to="/search"/>
                         </div>
                     </div>
                 )}/>
@@ -99,7 +95,7 @@ getShelfBooks(shelfName){
                 <Route path="/search" render={({ history }) => (
                             <Search
                                 books={this.state.searchBooks}
-                                updateQuery={this.updateQuery} 
+                                searchForBooks={this.searchForBooks} 
                                 changeShelf={this.changeShelf}                       
                             />
                         )}/>

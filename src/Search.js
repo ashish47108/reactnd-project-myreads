@@ -10,12 +10,12 @@ class Search extends Component{
         changeShelf: PropTypes.func.isRequired        
     };
 
-    updateQuery = (query) => {
-        this.props.updateQuery(query.trim());
+    searchForBooks = (query) => {
+        this.props.searchForBooks(query.trim());
     };
 
     componentWillUnmount(){
-        this.props.updateQuery("");
+        this.props.searchForBooks("");
     }
 
     render(){
@@ -27,8 +27,8 @@ class Search extends Component{
                         <Debounce time="600" handler="onChange">
                             <input
                                 type="text"
-                                placeholder="Search by title or author"
-                                onChange={(event) => this.updateQuery(event.target.value)}
+                                placeholder="Search Books by title or author"
+                                onChange={(event) => this.searchForBooks(event.target.value)}
                             />
                         </Debounce>
                     </div>
